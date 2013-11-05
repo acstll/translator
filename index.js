@@ -37,7 +37,12 @@ function Translator (locale) {
   this.locale = locale || fallback;
 
   locales.forEach(function (locale) {
-    this.locales[locale] = this.store.read(locale, this.config);
+    var self = this;
+    
+    this.store.read(locale, this.config, function (err, data) {
+      if (err) throw err;
+      self.locales[locale] = data;
+    });
   }, this);
 }
 

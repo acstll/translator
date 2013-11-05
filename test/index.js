@@ -57,3 +57,4 @@ new Translator('fr')
 // Missing tests:
 // - .write: bool
 // - .silent: bool
+// everything on 'production'

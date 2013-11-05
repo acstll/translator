@@ -12,23 +12,24 @@ module.exports = {
   write: writeFile
 };
 
-function readFile (locale, options) {
+function readFile (locale, options, callback) {
   var filepath = normalize(options.dir, locale);
-  var data;
+  var data = {};
 
-  if (!options.development && cache[locale]) return cache[locale];
+  if (!options.development && cache[locale])
+    return callback(null, cache[locale]);
 
   try {
     data = require(filepath);
     // data = fs.readFileSync(filepath, { encoding: 'utf8' });
     // data = JSON.parse(data);
   } catch (err) {
-    if (options.development) return createFile(filepath, options);
-    throw new Error('Locale file not found');
+    if (!options.development) throw new Error('Locale file not found');
+    createFile(filepath, options);
   }
 
   if (!options.development) cache[locale] = data;
-  return data;
+  callback(null, data);
 }
 
 function writeFile (locale, data, options) {
@@ -51,7 +52,7 @@ function writeFile (locale, data, options) {
 
 function createFile (filepath, options) {
   if (!options.write) return;
-  
+
   var data = Object.create(null);
   var dir = normalize(options.dir);
 
