@@ -6,13 +6,15 @@ var defaults = {
   dir: './locales',
   store: store,
   write: true,
+  silent: true,
   development: (process.env.NODE_ENV !== 'production') 
 };
 
 
 
 // todo:
-// - handle non-existent keys (append), write to disk when needed: check fn
+// - handle non-existent keys 1: append
+// - handle non-existent keys 2: write to disk when needed
 // - function to add # methods to some object (mixin?)
 
 module.exports = Translator;
@@ -79,15 +81,20 @@ function translate (a, b, c) {
 }
 
 function check (value, args) {
-  return value;
+  if (value) return value;
+  if (!this.config.silent) throw new Error('Translation not available for ' + args[0]);
+  
+  var current = this.locales[this.locale];
 
   if (args.length === 1) {
+    // need to write failing tests...
   }
+
   if (args.length === 2) {
+
   }
+
   if (args.length === 3) {
+
   }
 }
-
-
-

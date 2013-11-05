@@ -51,3 +51,9 @@ test('translates', function (t) {
 
 console.log('Warning about fr locale not available:');
 new Translator('fr')
+
+
+
+// Missing tests:
+// - .write: bool
+// - .silent: bool
