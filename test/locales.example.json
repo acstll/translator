@@ -1,0 +1,17 @@
+{
+	"Hello": "Hello",
+	"Hello %s": "Hello %s",
+	"You got %s unread message": {
+		"one": "You got %s unread message",
+		"other": "You got %s unread messages"
+	}
+}
+
+{
+	"Hello": "Hola",
+	"Hello %s": "Hola %s",
+	"Tienes %s mensaje sin leer": {
+		"one": "Tienes %s mensaje sin leer",
+		"other": "Tienes %s mensajes sin leer"
+	}
+}
