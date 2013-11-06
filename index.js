@@ -56,6 +56,7 @@ Translator.configure = function configure (options) {
   }
 };
 
+Translator.prototype.t =
 Translator.prototype.__ =
 Translator.prototype.__n = 
 Translator.prototype.translate = translate;
