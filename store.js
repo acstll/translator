@@ -33,8 +33,6 @@ function readFile (locale, options, callback) {
 }
 
 function writeFile (locale, data, options) {
-  if (!options.write) return;
-
   var filepath = normalize(options.dir, locale);
   var tmp = filepath + '.tmp' + ++counter;
   data = JSON.stringify(data, null, '\t');
@@ -51,8 +49,6 @@ function writeFile (locale, data, options) {
 }
 
 function createFile (filepath, options) {
-  if (!options.write) return;
-
   var data = Object.create(null);
   var dir = normalize(options.dir);
 

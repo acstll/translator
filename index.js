@@ -6,14 +6,14 @@ var defaults = {
   silent: true,
   development: (process.env.NODE_ENV !== 'production'),
   store: store,
-  dir: './locales',
-  write: true
+  dir: './locales'
 };
 
 
 
 // todo:
 // - function to add # methods to some object (mixin?)
+// - test on 'production'
 
 module.exports = Translator;
 

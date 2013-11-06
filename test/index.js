@@ -60,15 +60,28 @@ test('handles non-existent strings', function (t) {
   t.equal(en.__('You got %s cat', 'You got $s cats', 1), 'You got 1 cat', '__n, non-existent');
 });
 
+test('configure', function (t) {
+  Translator.configure({
+    extra: true
+  });
+
+  var en = new Translator();
+
+  t.equal(en.config.dir, './locales', 'defaults are there');
+  t.equal(en.config.extra, true, 'takes extra options');
+  
+  en.config.silent = false;
+  t.throws(query, '.silent: false, throws');
+
+  t.end();
+
+  function query () {
+    return en.__('Not there');
+  }
+});
+
 // Should warn to console: 'Locale fr not available, using default (en)'
 // (don't know how to better test)
 
-console.log('Warning about fr locale not available:');
-new Translator('fr')
-
-
-
-// Missing tests:
-// - .write: bool being false
-// - .silent: bool
-// everything on 'production'
+  console.log('Warning about fr locale not available:');
+  new Translator('fr');
