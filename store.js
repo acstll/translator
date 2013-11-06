@@ -3,11 +3,11 @@ var path = require('path');
 var mkdirp = require('mkdirp');
 
 var cache = Object.create(null);
+var counter = 0;
 
 
 
 module.exports = {
-  create: createFile,
   read: readFile,
   write: writeFile
 };
@@ -24,7 +24,7 @@ function readFile (locale, options, callback) {
     // data = fs.readFileSync(filepath, { encoding: 'utf8' });
     // data = JSON.parse(data);
   } catch (err) {
-    if (!options.development) throw new Error('Locale file not found');
+    if (!options.development) error(err, 'Locale file not found');
     createFile(filepath, options);
   }
 
@@ -36,16 +36,16 @@ function writeFile (locale, data, options) {
   if (!options.write) return;
 
   var filepath = normalize(options.dir, locale);
-  var tmp = filepath + '.tmp';
+  var tmp = filepath + '.tmp' + ++counter;
   data = JSON.stringify(data, null, '\t');
 
   fs.writeFile(tmp, data, rename);
 
   function rename (err) {
-    if (err) throw new Error('Unable to write file at ' + filepath);
+    if (err) error(err, 'Unable to write file at ' + tmp);
     
     fs.rename(tmp, filepath, function (err) {
-      if (err) throw new Error('Unable to write file at ' + filepath);
+      if (err) error(err, 'Unable to rename file to ' + filepath);
     });
   }
 }
@@ -57,9 +57,10 @@ function createFile (filepath, options) {
   var dir = normalize(options.dir);
 
   mkdirp(dir, function (err, made) {
-    if (err) throw new Error('Unable to create directory ' + dir);
+    if (err) error(err, 'Unable to create directory ' + dir);
+
     fs.writeFile(filepath, JSON.stringify(data), function (err) {
-      if (err) throw new Error('Unable to create locale file at ' + filepath);
+      if (err) error(err, 'Unable to create locale file at ' + filepath);
     });
   });
   
@@ -69,4 +70,9 @@ function createFile (filepath, options) {
 function normalize (dir, locale) {
   if (arguments.length === 1) return path.join(__dirname, dir);
   return path.join(__dirname, dir, locale + '.json');
+}
+
+function error (err, message) {
+  console.error(message);
+  throw err;
 }
