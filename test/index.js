@@ -5,31 +5,31 @@ Translator.configure({
   locales: ['en', 'es']
 });
 
+var f1 = {
+  Hello: 'Hello',
+  'Hello %s': 'Hello %s',
+  'You got %s unread message': {
+    one: 'You got %s unread message',
+    other: 'You got %s unread messages'
+  }
+};
+
+var f2 = {
+  Hello: 'Hola',
+  'Hello %s': 'Hola %s',
+  'You got %s unread message': {
+    one: 'Tienes %s mensaje sin leer',
+    other: 'Tienes %s mensajes sin leer'
+  }
+};
+
 test('loads .json files', function (t) {
   var en = new Translator();
 
-  var expected1 = {
-    Hello: 'Hello',
-    'Hello %s': 'Hello %s',
-    'You got %s unread message': {
-      one: 'You got %s unread message',
-      other: 'You got %s unread messages'
-    }
-  };
-
-  var expected2 = {
-    Hello: 'Hola',
-    'Hello %s': 'Hola %s',
-    'You got %s unread message': {
-      one: 'Tienes %s mensaje sin leer',
-      other: 'Tienes %s mensajes sin leer'
-    }
-  };
-
   t.equal(typeof en, 'object', 'is object');
   t.equal(en.locale, 'en', 'default locale is correct');
-  t.deepEqual(en.locales.en, expected1, 'loaded all locales 1');
-  t.deepEqual(en.locales.es, expected2, 'loaded all locales 2');
+  t.deepEqual(en.locales.en, f1, 'loaded all locales 1');
+  t.deepEqual(en.locales.es, f2, 'loaded all locales 2');
 
   t.end();
 });
@@ -46,6 +46,20 @@ test('translates', function (t) {
   t.end();
 });
 
+test('handles non-existent strings', function (t) {
+  var en = new Translator();
+
+  // Clean up.
+  setTimeout(function () {
+    en.config.store.write('en', f1, en.config);
+    t.end();
+  }, 300);
+
+  t.equal(en.__('Goodbye'), 'Goodbye', '__ simple, non-existent');
+  t.equal(en.__('Goodbye %s', 'John'), 'Goodbye John', '__ vsprintf, non-existent');
+  t.equal(en.__('You got %s cat', 'You got $s cats', 1), 'You got 1 cat', '__n, non-existent');
+});
+
 // Should warn to console: 'Locale fr not available, using default (en)'
 // (don't know how to better test)
 
@@ -55,6 +69,6 @@ new Translator('fr')
 
 
 // Missing tests:
-// - .write: bool
+// - .write: bool being false
 // - .silent: bool
 // everything on 'production'

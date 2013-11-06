@@ -3,18 +3,16 @@ var store = require('./store');
 
 var defaults = {
   locales: ['en'],
-  dir: './locales',
-  store: store,
-  write: true,
   silent: true,
-  development: (process.env.NODE_ENV !== 'production') 
+  development: (process.env.NODE_ENV !== 'production'),
+  store: store,
+  dir: './locales',
+  write: true
 };
 
 
 
 // todo:
-// - handle non-existent keys 1: append
-// - handle non-existent keys 2: write to disk when needed
 // - function to add # methods to some object (mixin?)
 
 module.exports = Translator;
@@ -38,7 +36,7 @@ function Translator (locale) {
 
   locales.forEach(function (locale) {
     var self = this;
-    
+
     this.store.read(locale, this.config, function (err, data) {
       if (err) throw err;
       self.locales[locale] = data;
@@ -88,19 +86,33 @@ function translate (a, b, c) {
 
 function check (value, args) {
   if (value) return value;
-  if (!this.config.silent) throw new Error('Translation not available for ' + args[0]);
-  
+
+  var options = this.config;
   var current = this.locales[this.locale];
+  var a = args[0];
+  var b = args[1];
+  var c = args[2];
 
-  if (args.length === 1) {
-    // need to write failing tests...
-  }
+  if (!options.silent) throw new Error('Translation not available for ' + args[0]);
+  
+  // Create non-existent key, 'write' while in development.
 
-  if (args.length === 2) {
-
+  if (args.length < 3) {
+    current[a] = a;
+    if (options.development) {
+      this.store.write(this.locale, current, options);
+    }
+    return a;
   }
 
   if (args.length === 3) {
-
+    current[a] = {
+      one: a,
+      other: b
+    };
+    if (options.development) {
+      this.store.write(this.locale, current, options);
+    }
+    return current[a];
   }
 }
