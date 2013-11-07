@@ -80,6 +80,20 @@ test('configure', function (t) {
   }
 });
 
+test('mixin', function (t) {
+  var es = new Translator('es');
+  var obj = {
+    foo: 'bar'
+  };
+
+  es.mixin(obj);
+
+  t.equal(obj.__('Hello %s', 'John'), 'Hola John', 'translates');
+  t.equal(obj.foo, 'bar', 'is ok');
+
+  t.end();
+});
+
 // Should warn to console: 'Locale fr not available, using default (en)'
 // (don't know how to better test)
 

@@ -11,10 +11,6 @@ var defaults = {
 
 
 
-// todo:
-// - function to add # methods to some object (mixin?)
-// - test on 'production'
-
 module.exports = Translator;
 
 function Translator (locale) {
@@ -52,6 +48,17 @@ Translator.configure = function configure (options) {
   for (var key in options) {
     Translator.config[key] = options[key];
   }
+};
+
+Translator.prototype.mixin = function mixin (obj) {
+  obj = obj || {};
+  
+  obj.t =
+  obj.__ =
+  obj.__n =
+  obj.translate = this.translate.bind(this);
+
+  return obj;
 };
 
 Translator.prototype.t =
