@@ -9,7 +9,8 @@ var counter = 0;
 
 module.exports = {
   read: readFile,
-  write: writeFile
+  write: writeFile,
+  _cache: cache
 };
 
 function readFile (locale, options, callback) {

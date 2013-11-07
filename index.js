@@ -14,6 +14,8 @@ var defaults = {
 module.exports = Translator;
 
 function Translator (locale) {
+  if (!this instanceof Translator) return new Translator(locale);
+
   var locales = Translator.config.locales;
   var fallback = locales[0];
 
