@@ -6,7 +6,12 @@
   "scripts": {
     "test": "./node_modules/.bin/tape ./test/*.js"
   },
-  "author": "",
+  "author": "Arturo Castillo Delgado <19@8302.net>",
+  "repository" :
+  { 
+    "type" : "git",
+    "url" : "http://github.com/acstll/translator.git"
+  },
   "license": "MIT",
   "dependencies": {
     "sprintf": "~0.1.3",
