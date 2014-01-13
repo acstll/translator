@@ -5,8 +5,7 @@ var defaults = {
   locales: ['en'],
   silent: true,
   development: (process.env.NODE_ENV !== 'production'),
-  store: store,
-  dir: './locales'
+  store: store
 };
 
 

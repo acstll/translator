@@ -14,6 +14,8 @@ module.exports = {
 };
 
 function readFile (locale, options, callback) {
+  if (!options.dir) return callback(new Error('No `dir` property provided in options object'));
+
   var filepath = normalize(options.dir, locale);
   var data = {};
 
@@ -65,8 +67,8 @@ function createFile (filepath, options) {
 }
 
 function normalize (dir, locale) {
-  if (arguments.length === 1) return path.join(__dirname, dir);
-  return path.join(__dirname, dir, locale + '.json');
+  if (arguments.length === 1) return dir;
+  return path.join(dir, locale + '.json');
 }
 
 function error (err, message) {

@@ -3,6 +3,7 @@ var Translator = require('../');
 
 Translator.configure({
   locales: ['en', 'es'],
+  dir: __dirname + '/locales',
   development: false
 });
 

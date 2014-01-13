@@ -1,7 +1,7 @@
 {
-  "name": "translator",
-  "version": "0.0.0",
-  "description": "",
+  "name": "translator-only",
+  "version": "0.1.0",
+  "description": "Simple and focused localization tool",
   "main": "index.js",
   "scripts": {
     "test": "./node_modules/.bin/tape ./test/*.js"

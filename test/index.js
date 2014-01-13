@@ -2,7 +2,8 @@ var test = require('tape');
 var Translator = require('../');
 
 Translator.configure({
-  locales: ['en', 'es']
+  locales: ['en', 'es'],
+  dir: __dirname + '/locales'
 });
 
 var f1 = {
@@ -67,7 +68,7 @@ test('configure', function (t) {
 
   var en = new Translator();
 
-  t.equal(en.config.dir, './locales', 'defaults are there');
+  t.equal(en.config.silent, true, 'defaults are there');
   t.equal(en.config.extra, true, 'takes extra options');
   
   en.config.silent = false;
